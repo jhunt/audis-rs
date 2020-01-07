@@ -189,7 +189,7 @@
 //!
 //! `PURGE(s,last)` is similar:
 //!
-//! ```rust-psuedo-code:
+//! ```redis-pseudo-code
 //! PURGE(s,last):
 //!     for id in LRANGE "$s" 0 -1:
 //!         LPOP "$s"
@@ -197,7 +197,6 @@
 //!         if GET "audit:$id:ref" <= 0:
 //!             DEL "audit:$id:ref"
 //!             DEL "audit:$id"
-//!
 //!         if $id == $last
 //!             break
 //! ```

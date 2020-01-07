@@ -132,7 +132,7 @@ LOG(e):
         SADD "subjects" "$s"
         RPUSH "$s" "$id"
         INCR "audit:$id:ref"
-```rust
+```
 
 Technically speaking, `LOG(e)` runs in _O(n)_, linearly
 to the number of subjects that the audit log event applies
@@ -183,7 +183,7 @@ TRUNC(s,n):
         if GET "audit:$id:ref" <= 0:
             DEL "audit:$id:ref"
             DEL "audit:$id"
-```rust
+```
 
 As events are truncated from the subject's index, the
 associated reference counts are checked to determine if any
@@ -191,7 +191,7 @@ larger cleanup (via `DEL`) needs to be performed.
 
 `PURGE(s,last)` is similar:
 
-```rust-psuedo-code:
+```redis-pseudo-code
 PURGE(s,last):
     for id in LRANGE "$s" 0 -1:
         LPOP "$s"
@@ -199,7 +199,6 @@ PURGE(s,last):
         if GET "audit:$id:ref" <= 0:
             DEL "audit:$id:ref"
             DEL "audit:$id"
-
         if $id == $last
             break
 ```
