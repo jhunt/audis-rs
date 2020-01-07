@@ -4,6 +4,11 @@ version = "0.1.0"
 authors = ["James Hunt <james@niftylogic.com>"]
 edition = "2018"
 
+description = "An audit logging system, built atop Redis."
+license = "MIT"
+homepage = "https://github.com/jhunt/audit-rs"
+repository = "https://github.com/jhunt/audit-rs"
+
 [dependencies.redis]
 version = "0.13"
 
