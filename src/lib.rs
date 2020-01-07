@@ -125,7 +125,7 @@
 //! ```redis-pseudo-code
 //! LOG(e):
 //!     var id = $e[id]
-//!     SETEX "audit:$id" $e[data]
+//!     SETNX "audit:$id" $e[data]
 //!     for s in $e[subjects]:
 //!         SADD "subjects" "$s"
 //!         RPUSH "$s" "$id"
@@ -179,8 +179,7 @@
 //!         LPOP "$s"
 //!         DECR "audit:$id:ref"
 //!         if GET "audit:$id:ref" <= 0:
-//!             DEL "audit:$id:ref"
-//!             DEL "audit:$id"
+//!             DEL "audit:$id:ref" "audit:$id"
 //! ```
 //!
 //! As events are truncated from the subject's index, the
@@ -195,8 +194,7 @@
 //!         LPOP "$s"
 //!         DECR "audit:$id:ref"
 //!         if GET "audit:$id:ref" <= 0:
-//!             DEL "audit:$id:ref"
-//!             DEL "audit:$id"
+//!             DEL "audit:$id:ref" "audit:$id"
 //!         if $id == $last
 //!             break
 //! ```
