@@ -383,8 +383,15 @@ impl Client {
     }
 
     fn setnx(&self, key: &str, data: &str) -> AudisResult<&Client> {
-        self.query(redis::cmd("SETNX").arg(key).arg(data))?;
-        Ok(self) // FIXME: handle if SETNX returns "0"
+        let s: i32 = self.query(redis::cmd("SETNX").arg(key).arg(data))?;
+        if s == 1 {
+            Ok(self)
+        } else {
+            Err(redis::RedisError::from((
+                redis::ErrorKind::IoError,
+                "duplicate key detected",
+            )))
+        }
     }
 
     fn sadd(&self, key: &str, data: &str) -> AudisResult<&Client> {

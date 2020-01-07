@@ -116,7 +116,8 @@ fn it_inserts_audit_events_in_order() {
             id: id.to_string(),
             data: format!("[{} data]", id),
             subjects: subj.clone(),
-        }).unwrap();
+        })
+        .unwrap();
     }
 
     let log = c.retrieve(&subj[0]).unwrap();
@@ -145,7 +146,8 @@ fn it_can_function_in_a_background_thread() {
             id: id.to_string(),
             data: format!("[{} data]", id),
             subjects: subj.clone(),
-        }).unwrap();
+        })
+        .unwrap();
     }
     drop(tx);
     tid.join().unwrap();
@@ -174,7 +176,8 @@ fn it_truncates_log_indices() {
             id: id.to_string(),
             data: format!("[{} data]", id),
             subjects: subj.clone(),
-        }).unwrap();
+        })
+        .unwrap();
     }
 
     let log = c.retrieve(&subj[0]).unwrap();
@@ -207,7 +210,8 @@ fn it_purges_logs() {
             id: id.to_string(),
             data: format!("[{} data]", id),
             subjects: subj.clone(),
-        }).unwrap();
+        })
+        .unwrap();
     }
 
     let log = c.retrieve(&subj[0]).unwrap();
@@ -220,6 +224,40 @@ fn it_purges_logs() {
     let log = c.retrieve(&subj[0]).unwrap();
     assert_eq!(log.len(), 1);
     assert_eq!(log[0].id, ids[2]);
+
+    drop(s);
+}
+
+#[test]
+#[should_panic(expected = "duplicate key detected")]
+fn it_cannot_insert_duplicate_event_ids() {
+    let (s, c) = server();
+
+    let id = id();
+    let subj = vec!["dup".to_string()];
+
+    c.log(&audis::Event {
+        id: id.to_string(),
+        data: format!("[{} data]", id),
+        subjects: subj.clone(),
+    })
+    .unwrap();
+
+    let log = c.retrieve(&subj[0]).unwrap();
+    assert_eq!(log.len(), 1);
+    assert_eq!(log[0].id, id);
+
+    c.log(&audis::Event {
+        id: id.to_string(),
+        data: format!("[{} data]", id),
+        subjects: subj.clone(),
+    })
+    .unwrap();
+
+    // this is here to catch failures to fail...
+    let log = c.retrieve(&subj[0]).unwrap();
+    assert_eq!(log.len(), 1);
+    assert_eq!(log[0].id, id);
 
     drop(s);
 }
