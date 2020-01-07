@@ -1,13 +1,14 @@
 [package]
 name = "audis"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["James Hunt <james@niftylogic.com>"]
-edition = "2018"
-
 description = "An audit logging system, built atop Redis."
-license = "MIT"
 homepage = "https://github.com/jhunt/audis-rs"
 repository = "https://github.com/jhunt/audis-rs"
+documentation = "https://docs.rs/redis"
+license = "MIT"
+readme = "README.md"
+edition = "2018"
 
 [dependencies.redis]
 version = "0.13"
