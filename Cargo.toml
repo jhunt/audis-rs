@@ -6,8 +6,8 @@ edition = "2018"
 
 description = "An audit logging system, built atop Redis."
 license = "MIT"
-homepage = "https://github.com/jhunt/audit-rs"
-repository = "https://github.com/jhunt/audit-rs"
+homepage = "https://github.com/jhunt/audis-rs"
+repository = "https://github.com/jhunt/audis-rs"
 
 [dependencies.redis]
 version = "0.13"
