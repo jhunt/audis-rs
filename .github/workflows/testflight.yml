@@ -11,7 +11,7 @@ jobs:
       run: |
         curl -Lo redis-server https://grab-n-go.s3.amazonaws.com/redis/5.0.7/redis-server
         chmod 0755 redis-server
-        ./redis-server version
+        ./redis-server --version
 
     - uses: actions-rs/cargo@v1
       with:
