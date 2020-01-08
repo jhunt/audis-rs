@@ -1,0 +1,23 @@
+name: Audis Testflight
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: retrieve redis-server
+      run: |
+        curl -Lo /usr/local/bin/redis-server https://grab-n-go.s3.amazonaws.com/redis/5.0.7/redis-server
+        chmod 0755 /usr/local/sbin/redis-server
+        redis-server version
+
+    - uses: actions-rs/cargo@v1
+      with:
+        command: test
+
+    - uses: actions-rs/cargo@v1
+      with:
+        command: build
+        args: --release --all-features
