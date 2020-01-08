@@ -10,8 +10,14 @@ license = "MIT"
 readme = "README.md"
 edition = "2018"
 
-[dependencies.redis]
-version = "0.13"
+[dependencies]
+redis = "0.13"
+rand = "0.7"
+clap = { version = "*", optional = true }
 
-[dev-dependencies.rand]
-version = "0.7"
+[features]
+cli = ["clap"]
+
+[[bin]]
+name = "audis"
+required-features = ["cli"]
