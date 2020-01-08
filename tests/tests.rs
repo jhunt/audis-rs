@@ -4,6 +4,7 @@ use rand;
 use rand::distributions::Alphanumeric;
 use rand::{thread_rng, Rng};
 
+use std::env;
 use std::fs;
 use std::process;
 use std::thread::sleep;
@@ -17,7 +18,10 @@ struct RedisServer {
 
 impl RedisServer {
     fn new() -> RedisServer {
-        let mut cmd = process::Command::new("redis-server");
+        let mut cmd = process::Command::new(match env::var("REDIS_SERVER_BIN") {
+            Ok(v) => v,
+            Err(_) => "redis-server".to_string(), // rely on $PATH
+        });
         cmd.stdout(process::Stdio::null())
             .stderr(process::Stdio::null());
 
